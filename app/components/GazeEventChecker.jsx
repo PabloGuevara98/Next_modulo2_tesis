@@ -1,0 +1,30 @@
+// components/GazeEventChecker.jsx
+import React from 'react';
+import useGazeEvent from '../hooks/useGazeEvent'; // Actualiza la ruta según tu estructura de carpetas
+
+const gazeevents = [
+  { docX: 100, docY: 100, time: 1718751444024, state: 0, duration: 33 },
+  { docX: 120, docY: 120, time: 1718751449727, state: 0, duration: 123 },
+  { docX: 621, docY: 384, time: 1718751451000, state: 0, duration: 150 },
+  // Más puntos simulados según necesites
+];
+
+const GazeEventChecker = () => {
+  const { clickPositions, matchingEventsArray, message } = useGazeEvent(gazeevents);
+
+  return (
+    <div>
+      <div>{message}</div>
+      <div>Clics registrados:</div>
+      {clickPositions.map((pos, index) => (
+        <div key={index}>Clic {index + 1}: X={pos.x}, Y={pos.y}</div>
+      ))}
+      <div>Eventos de mirada coincidentes:</div>
+      {matchingEventsArray.map((event, index) => (
+        <div key={index}>Evento {index + 1}: X={event.docX}, Y={event.docY}</div>
+      ))}
+    </div>
+  );
+};
+
+export default GazeEventChecker;
