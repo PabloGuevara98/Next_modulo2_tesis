@@ -1,6 +1,6 @@
 // components/GazeEventChecker.jsx
 import React from 'react';
-import useGazeEvent from '../hooks/useGazeEvent'; // Actualiza la ruta según tu estructura de carpetas
+import useGazeEvent from '../components/useGazeEvent'; // Actualiza la ruta según tu estructura de carpetas
 
 const gazeevents = [
   { docX: 100, docY: 100, time: 1718751444024, state: 0, duration: 33 },

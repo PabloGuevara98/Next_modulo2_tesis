@@ -1,20 +1,23 @@
-import { lusitana } from "../ui/fonts"
+"use client"
 
+// src/pages/page.tsx
+import React from 'react';
+import { lusitana } from "../ui/fonts";
+import GazeEventChecker from '../components/GazeEventChecker';
+import MousePosition from '../components/MousePosition';
 
 interface Point {
     x: number;
     y: number;
 }
-// Función para redondear las coordenadas a la tolerancia más cercana
-function roundToTolerance(value: number, tolerance: number) {
+
+function roundToTolerance(value: number, tolerance: number): number {
     return Math.round(value / tolerance) * tolerance;
 }
 
-// Función para contar ocurrencias de cada punto con tolerancia
-function getMostFrequentPoints(data: Point[], tolerance: number = 5) {
+function getMostFrequentPoints(data: Point[], tolerance: number = 5): (Point & { count: number })[] {
     const counts: Record<string, Point & { count: number }> = {};
     data.forEach(point => {
-        // Redondeamos las coordenadas a la tolerancia más cercana
         const roundedX = roundToTolerance(point.x, tolerance);
         const roundedY = roundToTolerance(point.y, tolerance);
         const key = `${roundedX},${roundedY}`;
@@ -25,25 +28,45 @@ function getMostFrequentPoints(data: Point[], tolerance: number = 5) {
         counts[key].count++;
     });
 
-    // Convertimos el objeto a un array y ordenamos por el número de ocurrencias
     const sortedPoints = Object.values(counts).sort((a, b) => b.count - a.count);
-
-    // Filtramos los puntos que más se repiten (en este caso, tomamos los top 5)
     return sortedPoints.slice(0, 5);
 }
 
+export default function Page() {
+    const [data, setData] = React.useState<Point[]>([]);
+    const [isLoading, setIsLoading] = React.useState(true);
 
-export default async function Page() {
-    // Para API esto funciona solo en los REACT SERVER COMPONENTS
-    const res = await fetch('https://api-seguim-ocular.vercel.app/api/data');
-    const json = await res.json();
+    React.useEffect(() => {
+        const fetchData = async () => {
+            try {
+                console.log("Intentando hacer fetch...");
+                const res = await fetch('https://api-seguim-ocular.vercel.app/api/dataexmp');
+                if (!res.ok) {
+                    throw new Error(`HTTP error! Status: ${res.status}`);
+                }
+                const json = await res.json();
+                setData(json);
+                console.log("Datos recibidos: ", json);
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+            }
+            setIsLoading(false);
+        };
+        fetchData();
+    }, []);
+    
 
-    // Procesar los datos
-    const frequentPoints = getMostFrequentPoints(json);
+    const frequentPoints = getMostFrequentPoints(data);
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <main>
             <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>Página de prueba</h1>
+            <MousePosition />
+            <GazeEventChecker />
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {frequentPoints.map((point, index) => (
                     <div key={index} className="border p-4">
@@ -52,10 +75,10 @@ export default async function Page() {
                         <p>Repeticiones: {point.count}</p>
                     </div>
                 ))}
-            </div>
-            <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-4">
-                {/* Aquí puedes agregar más contenido si es necesario */}
+                <button id="btn1">Botón 1</button>
+                <button id="btn2">Botón 2</button>
+                <button id="btn3">Botón 3</button>
             </div>
         </main>
-    )
+    );
 }
