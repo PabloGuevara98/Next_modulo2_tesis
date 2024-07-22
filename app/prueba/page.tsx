@@ -67,7 +67,7 @@ export default function Page() {
             <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>Página de prueba</h1>
             <MousePosition />
             <GazeEventChecker gazeEvents={data} />
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            { /*<div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {frequentPoints.map((point, index) => (
                     <div key={index} className="border p-4">
                         <p>X: {point.x}</p>
@@ -79,6 +79,7 @@ export default function Page() {
                 <button id="btn2">Botón 2</button>
                 <button id="btn3">Botón 3</button>
             </div>
+            */}
         </main>
     );
 }

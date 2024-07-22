@@ -19,6 +19,23 @@ const GazeEventChecker = ({ gazeEvents }) => {
 
   return (
     <div>
+        {transformedGazeEvents.map((point, index) => (
+        <div
+          key={index}
+          style={{
+            position: 'absolute',
+            left: `${point.docX}px`,
+            top: `${point.docY}px`,
+            background: 'rgba(255, 255, 255, 0.8)',
+            padding: '2px 5px',
+            borderRadius: '5px',
+            border: '1px solid black',
+            cursor: 'pointer'
+          }}
+        >
+          X={point.docX}, Y={point.docY}
+        </div>
+      ))}
       <div>{message}</div>
       <div>Clics registrados:</div>
       {clickPositions.map((pos, index) => (
@@ -28,6 +45,9 @@ const GazeEventChecker = ({ gazeEvents }) => {
       {matchingEventsArray.map((event, index) => (
         <div key={index}>Evento {index + 1}: X={event.docX}, Y={event.docY}</div>
       ))}
+
+
+      
     </div>
   );
 };
