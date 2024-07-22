@@ -3,14 +3,19 @@ import React from 'react';
 import useGazeEvent from '../components/useGazeEvent'; // Actualiza la ruta según tu estructura de carpetas
 
 const gazeevents = [
-  { docX: 100, docY: 100, time: 1718751444024, state: 0, duration: 33 },
-  { docX: 120, docY: 120, time: 1718751449727, state: 0, duration: 123 },
-  { docX: 621, docY: 384, time: 1718751451000, state: 0, duration: 150 },
+  { docX: 100, docY: 100 },
+  { docX: 1124, docY: 715 },
+  { docX: 380, docY: 156 },
   // Más puntos simulados según necesites
 ];
 
-const GazeEventChecker = () => {
-  const { clickPositions, matchingEventsArray, message } = useGazeEvent(gazeevents);
+const GazeEventChecker = ({ gazeEvents }) => {
+
+  const transformedGazeEvents = gazeEvents.map(point => ({
+    docX: point.x,
+    docY: point.y
+  }));
+  const { clickPositions, matchingEventsArray, message } = useGazeEvent(transformedGazeEvents);
 
   return (
     <div>

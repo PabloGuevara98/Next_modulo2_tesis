@@ -1,4 +1,4 @@
-// hooks/useGazeEvent.js
+//components/useGazeEvent.js
 import { useState, useEffect } from 'react';
 
 const useGazeEvent = (gazeevents) => {
@@ -24,7 +24,11 @@ const useGazeEvent = (gazeevents) => {
       } else {
         setMessage(`Clicked at: X=${clickPosition.x}, Y=${clickPosition.y} | No hay eventos de mirada dentro del área.`);
       }
+      console.log("MISDATOS", gazeevents)
+      console.log("DUMMY", gazeevents)
+      console.log("MATCHING", matchingEvents)
     };
+
 
     document.addEventListener('click', handleDocumentClick);
     return () => {
